@@ -23,12 +23,13 @@ public class ConversionRateDataServiceImpl implements ConversionRateDataService 
     @Nonnull
     @Override
     public List<ConversionRate> getAllConversionRates() {
-        return null;
+        return conversionRateRepository.getAllConversionRates();
+
     }
 
     @Nullable
     @Override
     public ConversionRate getConversionRate(String from, String to) {
-        return null;
+        return conversionRateRepository.getConversionRate(from, to);
     }
 }
