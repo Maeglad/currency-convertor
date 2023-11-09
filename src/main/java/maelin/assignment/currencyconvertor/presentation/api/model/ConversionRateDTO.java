@@ -9,11 +9,15 @@ import java.math.BigDecimal;
  * without exposing internal data that are not relevant for request
  */
 public class ConversionRateDTO {
-    public final String fromCurrency;
-    public final String toCurrency;
-    public final BigDecimal conversionRate;
+    public String fromCurrency;
+    public String toCurrency;
+    public String conversionRate;
 
-    public ConversionRateDTO(String fromCurrency, String toCurrency, BigDecimal conversionRate) {
+    public ConversionRateDTO() {
+
+    }
+
+    public ConversionRateDTO(String fromCurrency, String toCurrency, String conversionRate) {
         this.fromCurrency = fromCurrency;
         this.toCurrency = toCurrency;
         this.conversionRate = conversionRate;
