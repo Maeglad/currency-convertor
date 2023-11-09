@@ -7,9 +7,10 @@ import java.util.List;
 
 public class GetAllConversionsResponse extends BaseApiResponse {
 
-    private List<ConversionRateDTO> conversionRates;
+    public final List<ConversionRateDTO> conversionRates;
 
     public GetAllConversionsResponse(List<ConversionRateDTO> conversionRates) {
+        super(true);
         this.conversionRates = conversionRates;
     }
 }

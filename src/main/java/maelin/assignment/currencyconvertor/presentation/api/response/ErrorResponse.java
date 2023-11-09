@@ -2,10 +2,10 @@ package maelin.assignment.currencyconvertor.presentation.api.response;
 
 public class ErrorResponse extends BaseApiResponse {
 
-    private String message;
+    public final String message;
 
     public ErrorResponse(String message) {
-        success = false;
+        super(false);
         this.message = message;
     }
 }
