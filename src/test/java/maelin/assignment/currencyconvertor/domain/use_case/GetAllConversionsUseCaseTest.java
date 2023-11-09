@@ -15,6 +15,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+/**
+ * Test for {@link GetAllConversionsUseCase}
+ */
 @ExtendWith(MockitoExtension.class)
 class GetAllConversionsUseCaseTest {
 

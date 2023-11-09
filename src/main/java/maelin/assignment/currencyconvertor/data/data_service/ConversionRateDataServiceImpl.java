@@ -10,6 +10,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Binds domain and data layer
+ * {@inheritDoc}
+ * @see ConversionRateDataService
+ */
 @Service
 public class ConversionRateDataServiceImpl implements ConversionRateDataService {
 

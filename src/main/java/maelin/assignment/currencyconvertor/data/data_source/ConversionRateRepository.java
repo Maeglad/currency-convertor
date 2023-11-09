@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository for {@link ConversionRate} objects
+ */
 @Repository
 public interface ConversionRateRepository extends JpaRepository<ConversionRate, Long> {
 

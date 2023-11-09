@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Get list of all conversions available to application
+ */
 @Service
 public class GetAllConversionsUseCase {
 
@@ -21,6 +24,11 @@ public class GetAllConversionsUseCase {
         this.conversionRateDataService = conversionRateDataService;
     }
 
+    /**
+     * @return
+     *      if there are no conversions returns empty list<br/>
+     *      list with all conversions otherwise
+     */
     @Nonnull
     public List<ConversionRate> invoke() {
         return conversionRateDataService.getAllConversionRates();
