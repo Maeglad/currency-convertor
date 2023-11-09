@@ -24,7 +24,7 @@ dependencies {
 
 
     // model mapper for mapping dto to entity objects
-    implementation 'org.modelmapper:modelmapper:2.3.0'
+    implementation 'org.modelmapper:modelmapper:3.2.0'
 
     // validation for
     implementation 'org.springframework.boot:spring-boot-starter-validation'
