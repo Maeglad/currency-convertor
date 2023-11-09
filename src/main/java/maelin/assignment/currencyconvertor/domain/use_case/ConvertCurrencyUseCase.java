@@ -2,6 +2,7 @@ package maelin.assignment.currencyconvertor.domain.use_case;
 
 import jakarta.annotation.Nonnull;
 import maelin.assignment.currencyconvertor.domain.data_service.ConversionRateDataService;
+import maelin.assignment.currencyconvertor.domain.model.ConversionRate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,8 @@ public class ConvertCurrencyUseCase {
             @Nonnull String from,
             @Nonnull String to,
             @Nonnull BigDecimal amount) {
-        return null;
+        return conversionRateDataService.getConversionRate(from, to)
+                .map(ConversionRate::getRate)
+                .map(amount::multiply);
     }
 }
