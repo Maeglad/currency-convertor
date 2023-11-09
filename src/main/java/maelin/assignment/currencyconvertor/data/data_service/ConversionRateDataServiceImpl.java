@@ -12,7 +12,6 @@ import java.util.Optional;
 
 /**
  * Binds domain and data layer
- * {@inheritDoc}
  * @see ConversionRateDataService
  */
 @Service
@@ -25,6 +24,9 @@ public class ConversionRateDataServiceImpl implements ConversionRateDataService 
         this.conversionRateRepository = conversionRateRepository;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public List<ConversionRate> getAllConversionRates() {
@@ -32,6 +34,9 @@ public class ConversionRateDataServiceImpl implements ConversionRateDataService 
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Nonnull
     @Override
     public Optional<ConversionRate> getConversionRate(String from, String to) {

@@ -8,12 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 /**
@@ -30,7 +28,7 @@ class ConvertCurrencyUseCaseTest {
 
     /**
      * Call {@link ConvertCurrencyUseCase#invoke(String, String, BigDecimal)} and
-     * assert if it returns null for non-existent conversion
+     * assert if it returns empty {@link Optional} for non-existent conversion
      */
     @Test
     void convertCurrencyAndCurrencyDoesNotExist() {
