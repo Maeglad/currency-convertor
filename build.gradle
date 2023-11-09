@@ -16,10 +16,18 @@ repositories {
 }
 
 dependencies {
+    // spring
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    runtimeOnly 'com.h2database:h2'
+
+
+    // model mapper for mapping dto to entity objects
+    implementation 'org.modelmapper:modelmapper:2.3.0'
+
+    // validation for
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
