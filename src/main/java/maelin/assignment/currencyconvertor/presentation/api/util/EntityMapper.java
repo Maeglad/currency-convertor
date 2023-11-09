@@ -2,10 +2,15 @@ package maelin.assignment.currencyconvertor.presentation.api.util;
 
 import maelin.assignment.currencyconvertor.domain.model.ConversionRate;
 import maelin.assignment.currencyconvertor.presentation.api.model.ConversionRateDTO;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * Helper class for converting entities to DTO
@@ -21,9 +26,11 @@ public class EntityMapper {
     @Autowired
     public EntityMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
+        modelMapper.addConverter(new BigDecimalStringConverter());
+        configure();
     }
 
-    private void configure() {
+    public void configure() {
         modelMapper.addMappings(new PropertyMap<ConversionRate, ConversionRateDTO>() {
             @Override
             protected void configure() {
@@ -36,5 +43,17 @@ public class EntityMapper {
 
     public ConversionRateDTO convertToDTO(ConversionRate conversionRate) {
         return modelMapper.map(conversionRate, ConversionRateDTO.class);
+    }
+
+    private class BigDecimalStringConverter implements Converter<BigDecimal, String> {
+
+        @Override
+        public String convert(MappingContext<BigDecimal, String> context) {
+            if (context.getSource() != null) {
+                return context.getSource().toPlainString();
+            }
+
+            return null;
+        }
     }
 }
