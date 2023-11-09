@@ -23,6 +23,6 @@ public class GetAllConversionsUseCase {
 
     @Nonnull
     public List<ConversionRate> invoke() {
-        return new ArrayList<>();
+        return conversionRateDataService.getAllConversionRates();
     }
 }
