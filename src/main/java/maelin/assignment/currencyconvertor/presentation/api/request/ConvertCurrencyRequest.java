@@ -2,6 +2,7 @@ package maelin.assignment.currencyconvertor.presentation.api.request;
 
 import jakarta.validation.constraints.NotBlank;
 import maelin.assignment.currencyconvertor.presentation.api.controller.ConvertCurrencyController;
+import maelin.assignment.currencyconvertor.presentation.api.util.validator.NotBlankBigDecimal;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -14,12 +15,12 @@ import java.util.Optional;
 public class ConvertCurrencyRequest extends BaseApiRequest {
 
     @NotBlank(message = "fromCurrency field is blank")
-    public Optional<String> fromCurrency;
+    public String fromCurrency;
 
     @NotBlank(message = "toCurrency field is blank")
-    public Optional<String> toCurrency;
+    public String toCurrency;
 
-    @NotBlank(message = "amount field is blank")
-    public Optional<BigDecimal> amount;
+    @NotBlankBigDecimal(message = "amount field is blank")
+    public BigDecimal amount;
 
 }
