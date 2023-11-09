@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -74,6 +75,11 @@ class ConvertCurrencyControllerTest {
 
         Optional<ConvertCurrencyRequest> randomRequest = Optional.of(request);
 
+        String errorMessage = "amount is missing";
+
+        when(bindingResult.hasErrors()).thenReturn(true);
+        when(bindingResult.getAllErrors()).thenReturn(List.of(new ObjectError("amount", errorMessage)));
+
         // call controller
         ResponseEntity<? extends BaseApiResponse> result = controller.call(randomRequest, bindingResult);
 
@@ -85,7 +91,7 @@ class ConvertCurrencyControllerTest {
         ErrorResponse errorResponse = (ErrorResponse) body;
         // check if there is error message
         assertNotNull(errorResponse.message);
-        assertFalse(errorResponse.message.isEmpty());
+        assertEquals(errorResponse.message, errorMessage);
     }
 
     @Test
