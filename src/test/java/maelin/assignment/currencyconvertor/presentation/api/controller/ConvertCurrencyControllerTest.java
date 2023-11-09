@@ -53,9 +53,10 @@ class ConvertCurrencyControllerTest {
         ResponseEntity<? extends BaseApiResponse> result = controller.call(emptyRequest, bindingResult);
 
         // assert result
-        assertNotNull(result.getBody());
-        assertInstanceOf(ErrorResponse.class, result.getBody());
-        ErrorResponse errorResponse = (ErrorResponse) result.getBody();
+        Object body = result.getBody();
+        assertNotNull(body);
+        assertInstanceOf(ErrorResponse.class, body);
+        ErrorResponse errorResponse = (ErrorResponse) body;
         // check if there is error message
         assertNotNull(errorResponse.message);
         assertFalse(errorResponse.message.isEmpty());
@@ -78,9 +79,10 @@ class ConvertCurrencyControllerTest {
 
         // assert result
         // assert result
-        assertNotNull(result.getBody());
-        assertInstanceOf(ErrorResponse.class, result.getBody());
-        ErrorResponse errorResponse = (ErrorResponse) result.getBody();
+        Object body = result.getBody();
+        assertNotNull(body);
+        assertInstanceOf(ErrorResponse.class, body);
+        ErrorResponse errorResponse = (ErrorResponse) body;
         // check if there is error message
         assertNotNull(errorResponse.message);
         assertFalse(errorResponse.message.isEmpty());
@@ -109,9 +111,10 @@ class ConvertCurrencyControllerTest {
         ResponseEntity<? extends BaseApiResponse> result = controller.call(randomRequest, bindingResult);
 
         // assert result
-        assertNotNull(result.getBody());
-        assertInstanceOf(ConvertCurrencyResponse.class, result.getBody());
-        ConvertCurrencyResponse response = (ConvertCurrencyResponse) result.getBody();
+        Object body = result.getBody();
+        assertNotNull(body);
+        assertInstanceOf(ConvertCurrencyResponse.class, body);
+        ConvertCurrencyResponse response = (ConvertCurrencyResponse) body;
         assertEquals(response.amount, expectedValue);
     }
 }

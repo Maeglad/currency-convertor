@@ -7,6 +7,7 @@ import maelin.assignment.currencyconvertor.presentation.api.request.BaseApiReque
 import maelin.assignment.currencyconvertor.presentation.api.request.ConvertCurrencyRequest;
 import maelin.assignment.currencyconvertor.presentation.api.response.BaseApiResponse;
 import maelin.assignment.currencyconvertor.presentation.api.response.GetAllConversionsResponse;
+import maelin.assignment.currencyconvertor.presentation.api.util.EntityMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,12 +18,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 /**
  * Test for {@link GetAllConversionsController}
@@ -32,6 +35,9 @@ class GetAllConversionsControllerTest {
 
     @Mock
     private GetAllConversionsUseCase useCase;
+
+    @Mock
+    private EntityMapper entityMapper;
     
     @InjectMocks
     private GetAllConversionsController controller;
@@ -44,18 +50,27 @@ class GetAllConversionsControllerTest {
         // setup
         BindingResult bindingResult = Mockito.mock(BindingResult.class);
 
-        ConversionRateDTO rate1 = new ConversionRateDTO("EUR", "GBP", new BigDecimal("1.1"));
-        ConversionRateDTO rate2 = new ConversionRateDTO( "GBP", "EUR", new BigDecimal("0.9"));
-        List<ConversionRateDTO> expectedResult = Arrays.asList(rate1, rate2);
+        ConversionRate rate1 = new ConversionRate(1L, "EUR", "GBP", new BigDecimal("1.1"));
+        ConversionRate rate2 = new ConversionRate(2L, "GBP", "EUR", new BigDecimal("0.9"));
+        List<ConversionRate> rates = Arrays.asList(rate1, rate2);
+
+        ConversionRateDTO rate1DTO = new ConversionRateDTO("EUR", "GBP", new BigDecimal("1.1"));
+        ConversionRateDTO rate2DTO = new ConversionRateDTO( "GBP", "EUR", new BigDecimal("0.9"));
+        List<ConversionRateDTO> expectedResult = Arrays.asList(rate1DTO, rate2DTO);
         Optional<BaseApiRequest> emptyRequest = Optional.empty();
+
+        when(useCase.invoke()).thenReturn(rates);
+        when(entityMapper.convertToDTO(rate1)).thenReturn(rate1DTO);
+        when(entityMapper.convertToDTO(rate2)).thenReturn(rate2DTO);
 
         // call controller
         ResponseEntity<? extends BaseApiResponse> result = controller.call(emptyRequest, bindingResult);
 
         // assert result
-        assertNotNull(result.getBody());
-        assertInstanceOf(GetAllConversionsResponse.class, result.getBody());
-        GetAllConversionsResponse conversionRatesResponse = (GetAllConversionsResponse) result.getBody();
+        Object body = result.getBody();
+        assertNotNull(body);
+        assertInstanceOf(GetAllConversionsResponse.class, body);
+        GetAllConversionsResponse conversionRatesResponse = (GetAllConversionsResponse) body;
         assertEquals(expectedResult, conversionRatesResponse.conversionRates);
     }
 
@@ -64,14 +79,22 @@ class GetAllConversionsControllerTest {
         // setup
         BindingResult bindingResult = Mockito.mock(BindingResult.class);
 
-        ConversionRateDTO rate1 = new ConversionRateDTO("EUR", "GBP", new BigDecimal("1.1"));
-        ConversionRateDTO rate2 = new ConversionRateDTO( "GBP", "EUR", new BigDecimal("0.9"));
-        List<ConversionRateDTO> expectedResult = Arrays.asList(rate1, rate2);
+        ConversionRate rate1 = new ConversionRate(1L, "EUR", "GBP", new BigDecimal("1.1"));
+        ConversionRate rate2 = new ConversionRate(2L, "GBP", "EUR", new BigDecimal("0.9"));
+        List<ConversionRate> rates = Arrays.asList(rate1, rate2);
 
+        ConversionRateDTO rate1DTO = new ConversionRateDTO("EUR", "GBP", new BigDecimal("1.1"));
+        ConversionRateDTO rate2DTO = new ConversionRateDTO( "GBP", "EUR", new BigDecimal("0.9"));
+        List<ConversionRateDTO> expectedResult = Arrays.asList(rate1DTO, rate2DTO);
+        Optional<BaseApiRequest> emptyRequest = Optional.empty();
         ConvertCurrencyRequest request = new ConvertCurrencyRequest();
         request.amount = Optional.of(BigDecimal.ZERO);
         request.fromCurrency = Optional.of("EUR");
         request.toCurrency = Optional.of("GBP");
+
+        when(useCase.invoke()).thenReturn(rates);
+        when(entityMapper.convertToDTO(rate1)).thenReturn(rate1DTO);
+        when(entityMapper.convertToDTO(rate2)).thenReturn(rate2DTO);
 
         Optional<BaseApiRequest> randomRequest = Optional.of(request);
 
@@ -79,9 +102,10 @@ class GetAllConversionsControllerTest {
         ResponseEntity<? extends BaseApiResponse> result = controller.call(randomRequest, bindingResult);
 
         // assert result
-        assertNotNull(result.getBody());
-        assertInstanceOf(GetAllConversionsResponse.class, result.getBody());
-        GetAllConversionsResponse conversionRatesResponse = (GetAllConversionsResponse) result.getBody();
+        Object body = result.getBody();
+        assertNotNull(body);
+        assertInstanceOf(GetAllConversionsResponse.class, body);
+        GetAllConversionsResponse conversionRatesResponse = (GetAllConversionsResponse) body;
         assertEquals(expectedResult, conversionRatesResponse.conversionRates);
     }
 }
