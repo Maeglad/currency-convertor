@@ -30,7 +30,7 @@ public class ConversionRate {
     @Nonnull
     private String toCurrency;
 
-    @Column(name = RATE_NAME)
+    @Column(name = RATE_NAME, columnDefinition = "varchar")
     @Nonnull
     private BigDecimal rate;
 
