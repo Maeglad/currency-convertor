@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
+/**
+ * Base api controller that unifies all public functionality of controllers
+ * @param <T> request class
+ */
 @RestController
 public interface BaseApiController <T extends BaseApiRequest> {
 

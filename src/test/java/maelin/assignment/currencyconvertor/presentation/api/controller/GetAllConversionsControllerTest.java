@@ -8,7 +8,6 @@ import maelin.assignment.currencyconvertor.presentation.api.request.ConvertCurre
 import maelin.assignment.currencyconvertor.presentation.api.response.BaseApiResponse;
 import maelin.assignment.currencyconvertor.presentation.api.response.GetAllConversionsResponse;
 import maelin.assignment.currencyconvertor.presentation.api.util.EntityMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +41,8 @@ class GetAllConversionsControllerTest {
     private GetAllConversionsController controller;
 
     /**
-     * Get all conversion after request is made
+     * Get all conversion after empty request is made<br/>
+     * Should end with controller returning all conversions
      */
     @Test
     void getAllConversionsAfterCallIsMadeWithNoRequest() {
@@ -57,6 +56,7 @@ class GetAllConversionsControllerTest {
         ConversionRateDTO rate1DTO = new ConversionRateDTO("EUR", "GBP", new BigDecimal("1.1"));
         ConversionRateDTO rate2DTO = new ConversionRateDTO( "GBP", "EUR", new BigDecimal("0.9"));
         List<ConversionRateDTO> expectedResult = Arrays.asList(rate1DTO, rate2DTO);
+
         Optional<BaseApiRequest> emptyRequest = Optional.empty();
 
         when(useCase.invoke()).thenReturn(rates);
@@ -74,8 +74,12 @@ class GetAllConversionsControllerTest {
         assertEquals(expectedResult, conversionRatesResponse.conversionRates);
     }
 
+    /**
+     * Get all conversions when incorrect request is provided.<br/>
+     * Should end with controller returning all conversions
+     */
     @Test
-    void getAllConversionsAfterCallIsMadeWithSomeRandomRequest() {
+    void getAllConversionsAfterCallIsMadeWithIncorrectRequest() {
         // setup
         BindingResult bindingResult = Mockito.mock(BindingResult.class);
 
@@ -86,7 +90,7 @@ class GetAllConversionsControllerTest {
         ConversionRateDTO rate1DTO = new ConversionRateDTO("EUR", "GBP", new BigDecimal("1.1"));
         ConversionRateDTO rate2DTO = new ConversionRateDTO( "GBP", "EUR", new BigDecimal("0.9"));
         List<ConversionRateDTO> expectedResult = Arrays.asList(rate1DTO, rate2DTO);
-        Optional<BaseApiRequest> emptyRequest = Optional.empty();
+
         ConvertCurrencyRequest request = new ConvertCurrencyRequest();
         request.amount = Optional.of(BigDecimal.ZERO);
         request.fromCurrency = Optional.of("EUR");

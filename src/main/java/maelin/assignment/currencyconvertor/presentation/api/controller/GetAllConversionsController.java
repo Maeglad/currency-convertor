@@ -4,6 +4,7 @@ import maelin.assignment.currencyconvertor.domain.use_case.GetAllConversionsUseC
 import maelin.assignment.currencyconvertor.presentation.api.model.ConversionRateDTO;
 import maelin.assignment.currencyconvertor.presentation.api.request.BaseApiRequest;
 import maelin.assignment.currencyconvertor.presentation.api.response.BaseApiResponse;
+import maelin.assignment.currencyconvertor.presentation.api.response.ConvertCurrencyResponse;
 import maelin.assignment.currencyconvertor.presentation.api.response.ErrorResponse;
 import maelin.assignment.currencyconvertor.presentation.api.response.GetAllConversionsResponse;
 import maelin.assignment.currencyconvertor.presentation.api.util.EntityMapper;
@@ -22,6 +23,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Handles requests for getting all conversions<br/>
+ *
+ * @see ConvertCurrencyResponse
+ */
 @RestController
 @RequestMapping(value = "/api/conversions", produces = MediaType.APPLICATION_JSON_VALUE)
 public class GetAllConversionsController implements BaseApiController<BaseApiRequest> {

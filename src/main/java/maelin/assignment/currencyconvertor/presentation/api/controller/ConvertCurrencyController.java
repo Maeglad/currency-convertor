@@ -20,6 +20,11 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Handles {@link ConvertCurrencyRequest}<br/>
+ *
+ * @see ConvertCurrencyResponse
+ */
 @RestController
 @RequestMapping(value = "/api/convert", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ConvertCurrencyController implements BaseApiController<ConvertCurrencyRequest> {

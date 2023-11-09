@@ -1,5 +1,8 @@
 package maelin.assignment.currencyconvertor.presentation.api.response;
 
+/**
+ * Basic Error response containing message
+ */
 public class ErrorResponse extends BaseApiResponse {
 
     public final String message;
