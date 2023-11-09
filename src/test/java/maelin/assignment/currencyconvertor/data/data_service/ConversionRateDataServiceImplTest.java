@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -56,23 +57,23 @@ class ConversionRateDataServiceImplTest {
     @Test
     void getConversionRate() {
         // setup
-        ConversionRate expectedConversionRate =
-                new ConversionRate(1L,
-                        "EUR",
-                        "GBP",
-                        new BigDecimal("1.1"));
-
-        String fromCurrency = "EUR";
-        String toCurrency = "GBP";
-        when(conversionRateRepository.getConversionRate(fromCurrency, toCurrency))
-                .thenReturn(new ConversionRate(
-                        1L,
+        Optional<ConversionRate> expectedConversionRate =
+                Optional.of(new ConversionRate(1L,
                         "EUR",
                         "GBP",
                         new BigDecimal("1.1")));
 
+        String fromCurrency = "EUR";
+        String toCurrency = "GBP";
+        when(conversionRateRepository.getConversionRate(fromCurrency, toCurrency))
+                .thenReturn(Optional.of(new ConversionRate(
+                        1L,
+                        "EUR",
+                        "GBP",
+                        new BigDecimal("1.1"))));
+
         // get conversion rate between EUR and GBP
-        ConversionRate actualConversionRate = conversionRateDataService
+        Optional<ConversionRate> actualConversionRate = conversionRateDataService
                 .getConversionRate(fromCurrency, toCurrency);
 
         // assert results
@@ -90,13 +91,13 @@ class ConversionRateDataServiceImplTest {
         String fromCurrency = "EUR";
         String toCurrency = "GBP";
         when(conversionRateRepository.getConversionRate(fromCurrency, toCurrency))
-                .thenReturn(null);
+                .thenReturn(Optional.empty());
 
         // get conversion rate between EUR and GBP
-        ConversionRate actualConversionRate = conversionRateDataService
+        Optional<ConversionRate> actualConversionRate = conversionRateDataService
                 .getConversionRate(fromCurrency, toCurrency);
 
         // assert results
-        assertNull(actualConversionRate);
+        assert(actualConversionRate.isEmpty());
     }
 }

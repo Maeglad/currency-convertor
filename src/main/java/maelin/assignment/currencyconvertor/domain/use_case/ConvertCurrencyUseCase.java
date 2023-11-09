@@ -1,12 +1,13 @@
 package maelin.assignment.currencyconvertor.domain.use_case;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import maelin.assignment.currencyconvertor.domain.data_service.ConversionRateDataService;
+import maelin.assignment.currencyconvertor.domain.model.ConversionRate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Service
 public class ConvertCurrencyUseCase {
@@ -18,8 +19,8 @@ public class ConvertCurrencyUseCase {
         this.conversionRateDataService = conversionRateDataService;
     }
 
-    @Nullable
-    public BigDecimal invoke(
+    @Nonnull
+    public Optional<BigDecimal> invoke(
             @Nonnull String from,
             @Nonnull String to,
             @Nonnull BigDecimal amount) {

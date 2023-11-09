@@ -8,7 +8,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -20,7 +22,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ConvertCurrencyUseCaseTest {
 
-    @Mock(strictness = Mock.Strictness.LENIENT)
+    @Mock
     ConversionRateDataService dataService;
 
     @InjectMocks
@@ -36,13 +38,13 @@ class ConvertCurrencyUseCaseTest {
         String fromCurrency = "EUR";
         String toCurrency = "GBP";
         BigDecimal amount = BigDecimal.TEN;
-        when(dataService.getConversionRate(fromCurrency, toCurrency)).thenReturn(null);
+        when(dataService.getConversionRate(fromCurrency, toCurrency)).thenReturn(Optional.empty());
 
         // call use case
-        BigDecimal convertedValue = useCase.invoke(fromCurrency, toCurrency, amount);
+        Optional<BigDecimal> convertedValue = useCase.invoke(fromCurrency, toCurrency, amount);
 
         // assert results
-        assertNull(convertedValue);
+        assert (convertedValue.isEmpty());
     }
 
     /**
@@ -55,17 +57,18 @@ class ConvertCurrencyUseCaseTest {
         String fromCurrency = "EUR";
         String toCurrency = "GBP";
         BigDecimal amount = BigDecimal.TEN;
-        ConversionRate conversionRate = new ConversionRate(
+        Optional<ConversionRate> conversionRate = Optional.of(new ConversionRate(
                 1L,
                 fromCurrency,
                 toCurrency,
                 new BigDecimal("1.2")
-        );
+        ));
         when(dataService.getConversionRate(fromCurrency, toCurrency)).thenReturn(conversionRate);
-        BigDecimal expectedResult = amount.multiply(conversionRate.getRate());
+        Optional<BigDecimal> expectedResult = conversionRate.map(ConversionRate::getRate)
+                .map(amount::multiply);
 
         // call use case
-        BigDecimal convertedValue = useCase.invoke(fromCurrency, toCurrency, amount);
+        Optional<BigDecimal> convertedValue = useCase.invoke(fromCurrency, toCurrency, amount);
 
         // assert results
         assertEquals(expectedResult, convertedValue);

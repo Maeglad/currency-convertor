@@ -1,12 +1,12 @@
 package maelin.assignment.currencyconvertor.domain.data_service;
 
 import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
 import maelin.assignment.currencyconvertor.data.data_service.ConversionRateDataServiceImpl;
 import maelin.assignment.currencyconvertor.domain.model.ConversionRate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Binds domain and data layer
@@ -29,10 +29,10 @@ public interface ConversionRateDataService {
     /**
      * Get {@link ConversionRate} between two currencies.
      * @return
-     *      if conversion rate does not exist returns null<br/>
+     *      if conversion rate does not exist returns empty {@link Optional}<br/>
      *      single conversion rate between two currencies otherwise
      */
-    @Nullable
-    ConversionRate getConversionRate(String from, String to);
+    @Nonnull
+    Optional<ConversionRate> getConversionRate(String from, String to);
 
 }
