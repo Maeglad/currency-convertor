@@ -49,6 +49,26 @@ public class ConversionRate {
 
     }
 
+    @Nonnull
+    public Long getId() {
+        return id;
+    }
+
+    @Nonnull
+    public String getFromCurrency() {
+        return fromCurrency;
+    }
+
+    @Nonnull
+    public String getToCurrency() {
+        return toCurrency;
+    }
+
+    @Nonnull
+    public BigDecimal getRate() {
+        return rate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
