@@ -2,7 +2,7 @@ package maelin.assignment.currencyconvertor.presentation.api.controller;
 
 import maelin.assignment.currencyconvertor.domain.use_case.GetAllConversionsUseCase;
 import maelin.assignment.currencyconvertor.presentation.api.model.ConversionRateDTO;
-import maelin.assignment.currencyconvertor.presentation.api.request.BaseApiRequest;
+import maelin.assignment.currencyconvertor.presentation.api.request.GetAllConversionsRequest;
 import maelin.assignment.currencyconvertor.presentation.api.response.BaseApiResponse;
 import maelin.assignment.currencyconvertor.presentation.api.response.ConvertCurrencyResponse;
 import maelin.assignment.currencyconvertor.presentation.api.response.ErrorResponse;
@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
  * @see ConvertCurrencyResponse
  */
 @RestController
-@RequestMapping(value = "/api/conversions", produces = MediaType.APPLICATION_JSON_VALUE)
-public class GetAllConversionsController implements BaseApiController<BaseApiRequest> {
+@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
+public class GetAllConversionsController implements BaseApiController<GetAllConversionsRequest> {
 
     private final GetAllConversionsUseCase useCase;
 
@@ -48,7 +48,7 @@ public class GetAllConversionsController implements BaseApiController<BaseApiReq
     public ResponseEntity<? extends BaseApiResponse> call(
             @Validated
             @RequestBody
-            Optional<BaseApiRequest> request,
+            Optional<GetAllConversionsRequest> request,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String errorMessage = bindingResult.getAllErrors().stream()

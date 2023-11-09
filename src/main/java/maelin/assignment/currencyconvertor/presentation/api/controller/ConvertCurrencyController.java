@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @see ConvertCurrencyResponse
  */
 @RestController
-@RequestMapping(value = "/api/convert", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ConvertCurrencyController implements BaseApiController<ConvertCurrencyRequest> {
 
     private ConvertCurrencyUseCase useCase;
@@ -55,14 +55,14 @@ public class ConvertCurrencyController implements BaseApiController<ConvertCurre
 
         ConvertCurrencyRequest convertRequest = request.get();
 
-        Optional<BigDecimal> convertedAmount = useCase.invoke(convertRequest.fromCurrency.get(),
-                convertRequest.toCurrency.get(),
-                convertRequest.amount.get());
+        Optional<BigDecimal> convertedAmount = useCase.invoke(convertRequest.fromCurrency,
+                convertRequest.toCurrency,
+                convertRequest.amount);
 
         if (convertedAmount.isEmpty()) {
             return ResponseEntity.badRequest().body(new ErrorResponse("Conversion rate does not exist"));
         }
 
-        return ResponseEntity.ok(new ConvertCurrencyResponse(convertedAmount.get()));
+        return ResponseEntity.ok(new ConvertCurrencyResponse(convertedAmount.get().toPlainString()));
     }
 }

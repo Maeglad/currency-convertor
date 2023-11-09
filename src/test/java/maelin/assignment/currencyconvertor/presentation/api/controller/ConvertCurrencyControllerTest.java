@@ -70,9 +70,9 @@ class ConvertCurrencyControllerTest {
         BindingResult bindingResult = Mockito.mock(BindingResult.class);
 
         ConvertCurrencyRequest request = new ConvertCurrencyRequest();
-        request.amount = Optional.empty();
-        request.fromCurrency = Optional.of("EUR");
-        request.toCurrency = Optional.of("GBP");
+        request.amount = null;
+        request.fromCurrency = "EUR";
+        request.toCurrency = "GBP";
 
         Optional<ConvertCurrencyRequest> randomRequest = Optional.of(request);
 
@@ -105,15 +105,15 @@ class ConvertCurrencyControllerTest {
         BindingResult bindingResult = Mockito.mock(BindingResult.class);
 
         ConvertCurrencyRequest request = new ConvertCurrencyRequest();
-        request.amount = Optional.of(BigDecimal.TEN);
-        request.fromCurrency = Optional.of("EUR");
-        request.toCurrency = Optional.of("GBP");
+        request.amount = BigDecimal.TEN;
+        request.fromCurrency = "EUR";
+        request.toCurrency = "GBP";
 
         BigDecimal expectedValue = new BigDecimal("20");
 
-        when(useCase.invoke(request.fromCurrency.get(),
-                            request.toCurrency.get(),
-                            request.amount.get()))
+        when(useCase.invoke(request.fromCurrency,
+                            request.toCurrency,
+                            request.amount))
                 .thenReturn(Optional.of(expectedValue));
 
         Optional<ConvertCurrencyRequest> randomRequest = Optional.of(request);
@@ -126,6 +126,6 @@ class ConvertCurrencyControllerTest {
         assertNotNull(body);
         assertInstanceOf(ConvertCurrencyResponse.class, body);
         ConvertCurrencyResponse response = (ConvertCurrencyResponse) body;
-        assertEquals(response.amount, expectedValue);
+        assertEquals(response.amount, expectedValue.toPlainString());
     }
 }
